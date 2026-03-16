@@ -1,1 +1,40 @@
+import React, { useState } from "react";
+import axios from "axios";
 
+function CommandInput() {
+
+  const [command, setCommand] = useState("");
+  const [response, setResponse] = useState("");
+
+  const runTask = async () => {
+
+    const res = await axios.post("http://localhost:5000/api/tasks/run", {
+      command
+    });
+
+    setResponse(res.data.status);
+  };
+
+  return (
+
+    <div>
+
+      <input
+        type="text"
+        placeholder="Enter a task (example: open youtube)"
+        value={command}
+        onChange={(e) => setCommand(e.target.value)}
+      />
+
+      <button onClick={runTask}>
+        Run Task
+      </button>
+
+      <p>{response}</p>
+
+    </div>
+
+  );
+}
+
+export default CommandInput;
